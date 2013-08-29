@@ -10,10 +10,11 @@ var ITOD = {
     var defaults = this.setDefaultTimes(opts.defaults),
         incrementMinutesBy = this.setMinuteIncrement(opts.incrementMinutesBy),
         selector = opts.selector,
+        selectedTime = this.setSelectedTime(opts.selectedTime, selector);
         periods = ['am', 'pm'],
         hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
         times = [],
-        combined = [];
+        combinedArrays = [];
 
     /**
       *
@@ -30,8 +31,9 @@ var ITOD = {
       }
     }
 
-    combined = defaults.concat(times);
-    return selector ? this.renderSelectOptions(combined) : combined;
+    combinedArrays = defaults.concat(times);
+
+    return selector ? this.renderSelectOptions(combinedArrays, selector, selectedTime) : combinedArrays;
   },
 
   setDefaultTimes: function(defaults) {
@@ -66,16 +68,36 @@ var ITOD = {
     }
   },
 
+  setSelectedTime: function(selectedTime, selector) {
+    if(typeof selectedTime === 'undefined') {
+      return;
+    } else {
+        try {
+          if(typeof selectedTime === 'string' && typeof selector !== 'undefined' && selector !== '') {
+            return selectedTime;
+          } else {
+              throw {
+                name: 'SelectedTimeError',
+                message: 'selectedTime must be a string and the "selector" attribute must be defined',
+                extra: ''
+              }
+          }
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+  },
+
   padNumber: function(n) {
     // Prepend 0 if number is less than 10
     return (n < 10) ? '0' + n : n;
   },
 
-  renderSelectOptions: function(times, selector) {
+  renderSelectOptions: function(times, selector, selectedTime) {
     // Generate options and append to select element
 
-    var options = this.generateOptionsHTML(times),
-        selectElem = document.querySelectorAll('.times')[0];
+    var options = this.generateOptionsHTML(times, selectedTime),
+        selectElem = document.querySelectorAll(selector)[0];
     for(var i = 0; i < options.length; i += 1) {
       selectElem.appendChild(options[i]);
     }
@@ -83,13 +105,14 @@ var ITOD = {
     return times;
   },
 
-  generateOptionsHTML: function(times) {
+  generateOptionsHTML: function(times, selectedTime) {
     var html = [];
     for(var i = 0; i < times.length; i += 1) {
       var time = times[i],
           option = document.createElement('option');
       option.value = time;
       option.text = time;
+      option.selected = time === selectedTime;
       html.push(option);
     }
 
