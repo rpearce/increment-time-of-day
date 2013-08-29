@@ -7,6 +7,7 @@
     */
 
   var padNumber = function(n) {
+    // Prepend 0 if number is less than 10
     return (n < 10) ? '0' + n : n;
   };
 
@@ -49,6 +50,13 @@
         hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
         times = [];
 
+    /**
+      *
+      * Iterate through every minute increment
+      * of every hour
+      * that falls within "am" or "pm"
+      *
+      */
     for(var p = 0; p < periods.length; p += 1) {
       for(var h = 0; h < hours.length; h += 1) {
         for(var i = 0; i < 60; i += incrementMinutesBy) {
@@ -74,8 +82,10 @@
   };
 
   var renderSelectOptions = function(times) {
-    var options = generateOptionsHTML(times);
-    var selectElem = document.querySelectorAll('.times')[0];
+    // Generate options and append to select element
+
+    var options = generateOptionsHTML(times),
+        selectElem = document.querySelectorAll('.times')[0];
     for(var i = 0; i < options.length; i += 1) {
       selectElem.appendChild(options[i]);
     }
@@ -83,8 +93,17 @@
     return;
   };
 
-  var defaults = ['Any', 'Early (4a-8a)', 'Morning (8a-12p)', 'Afternoon (12p-5p)', 'Evening (5p-9p)', 'Night (9p-12a)'],
-      times = getTimes({ defaults: defaults, incrementMinutesBy: 15 });
+  // Set any defaults you want to be first
+  var defaults = ['Any', 'Early (4a-8a)', 'Morning (8a-12p)', 'Afternoon (12p-5p)', 'Evening (5p-9p)', 'Night (9p-12a)'];
+
+  /**
+    * Call the getTimes function,
+    * passing the defaults, as well
+    * as an amount to increment each
+    * hour by.
+    *
+    */
+  var times = getTimes({ defaults: defaults, incrementMinutesBy: 15 });
 
   return renderSelectOptions(times);
 })();
