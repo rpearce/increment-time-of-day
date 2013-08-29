@@ -6,22 +6,14 @@
     * Call the getTimes method,
     * passing the defaults, as well
     * as an amount to increment each
-    * hour by.
+    * hour by. If you want to append
+    * these options to a <select> element,
+    * include a selector attribute with the
+    * appropriate selector name.
     *
     */
-  var times = ITOD.getTimes({ defaults: defaults, incrementMinutesBy: 15 });
+  var times = ITOD.getTimes({ defaults: defaults, incrementMinutesBy: 15, selector: '.times' });
+  console.log(times);
 
-  var renderSelectOptions = function(times) {
-    // Generate options and append to select element
-
-    var options = ITOD.generateOptionsHTML(times),
-        selectElem = document.querySelectorAll('.times')[0];
-    for(var i = 0; i < options.length; i += 1) {
-      selectElem.appendChild(options[i]);
-    }
-
-    return;
-  };
-
-  return renderSelectOptions(times);
+  return this;
 })();

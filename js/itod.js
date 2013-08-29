@@ -6,9 +6,32 @@
   */
 
 var ITOD = {
-  padNumber: function(n) {
-    // Prepend 0 if number is less than 10
-    return (n < 10) ? '0' + n : n;
+  getTimes: function(opts) {
+    var defaults = this.setDefaultTimes(opts.defaults),
+        incrementMinutesBy = this.setMinuteIncrement(opts.incrementMinutesBy),
+        selector = opts.selector,
+        periods = ['am', 'pm'],
+        hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        times = [],
+        combined = [];
+
+    /**
+      *
+      * Iterate through every minute increment
+      * of every hour
+      * that falls within "am" or "pm"
+      *
+      */
+    for(var p = 0; p < periods.length; p += 1) {
+      for(var h = 0; h < hours.length; h += 1) {
+        for(var i = 0; i < 60; i += incrementMinutesBy) {
+          times.push(hours[h].toString() + ':' + this.padNumber(i).toString() + periods[p]);
+        }
+      }
+    }
+
+    combined = defaults.concat(times);
+    return selector ? this.renderSelectOptions(combined) : combined;
   },
 
   setDefaultTimes: function(defaults) {
@@ -43,29 +66,21 @@ var ITOD = {
     }
   },
 
-  getTimes: function(opts) {
-    var defaults = this.setDefaultTimes(opts.defaults),
-        incrementMinutesBy = this.setMinuteIncrement(opts.incrementMinutesBy),
-        periods = ['am', 'pm'],
-        hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-        times = [];
+  padNumber: function(n) {
+    // Prepend 0 if number is less than 10
+    return (n < 10) ? '0' + n : n;
+  },
 
-    /**
-      *
-      * Iterate through every minute increment
-      * of every hour
-      * that falls within "am" or "pm"
-      *
-      */
-    for(var p = 0; p < periods.length; p += 1) {
-      for(var h = 0; h < hours.length; h += 1) {
-        for(var i = 0; i < 60; i += incrementMinutesBy) {
-          times.push(hours[h].toString() + ':' + this.padNumber(i).toString() + periods[p]);
-        }
-      }
+  renderSelectOptions: function(times, selector) {
+    // Generate options and append to select element
+
+    var options = this.generateOptionsHTML(times),
+        selectElem = document.querySelectorAll('.times')[0];
+    for(var i = 0; i < options.length; i += 1) {
+      selectElem.appendChild(options[i]);
     }
 
-    return defaults.concat(times);
+    return times;
   },
 
   generateOptionsHTML: function(times) {
