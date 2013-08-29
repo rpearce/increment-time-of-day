@@ -1,6 +1,6 @@
 ;(function() {
   /**
-    * Call the getTimes method,
+    * Call the ITOD.getTimes() method,
     * passing the
     *   - default options you want included at the beginning of the generated array,
     *   - an amount to increment each hour by,
