@@ -13,7 +13,7 @@ var ITOD = {
         periods = ['am', 'pm'],
         hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
         times = [],
-        combined = [];
+        combinedArrays = [];
 
     /**
       *
@@ -30,8 +30,9 @@ var ITOD = {
       }
     }
 
-    combined = defaults.concat(times);
-    return selector ? this.renderSelectOptions(combined) : combined;
+    combinedArrays = defaults.concat(times);
+
+    return selector ? this.renderSelectOptions(combinedArrays) : combinedArrays;
   },
 
   setDefaultTimes: function(defaults) {
