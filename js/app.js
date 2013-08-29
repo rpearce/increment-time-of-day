@@ -1,5 +1,5 @@
 ;(function() {
-  // Set any defaults you want to be set first
+  // Define any defaults you want to be set first
   var defaults = ['Any', 'Early (4a-8a)', 'Morning (8a-12p)', 'Afternoon (12p-5p)', 'Evening (5p-9p)', 'Night (9p-12a)'];
 
   /**
