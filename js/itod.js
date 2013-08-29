@@ -1,12 +1,19 @@
-/**
-  *
-  * Increment Time of Day
-  * by Robert Pearce
-  *
-  */
+;(function() {
+  /**
+    *
+    * Increment Time of Day 0.1
+    * (c) 2013 Robert Pearce
+    * Increment Time of Day may be freely distributed under the MIT license.
+    * For all details and documentation
+    * https://github.com/rpearce/increment-time-of-day
+    *
+    */
 
-var ITOD = {
-  getTimes: function(opts) {
+  var ITOD = window.ITOD = {};
+
+  ITOD.VERSION = '0.1'
+
+  ITOD.getTimes = function(opts) {
     var defaults = this.setDefaultTimes(opts.defaults),
         incrementMinutesBy = this.setMinuteIncrement(opts.incrementMinutesBy),
         selector = opts.selector,
@@ -34,9 +41,9 @@ var ITOD = {
     combinedArrays = defaults.concat(times);
 
     return selector ? this.renderSelectOptions(combinedArrays, selector, selectedTime) : combinedArrays;
-  },
+  };
 
-  setDefaultTimes: function(defaults) {
+  ITOD.setDefaultTimes = function(defaults) {
     try {
       if(Array.isArray(defaults)) {
         return defaults;
@@ -50,9 +57,9 @@ var ITOD = {
     } catch (e) {
         alert(e.message);
     }
-  },
+  };
 
-  setMinuteIncrement: function(incrementMinutesBy) {
+  ITOD.setMinuteIncrement = function(incrementMinutesBy) {
     try {
       if(typeof incrementMinutesBy === 'number' && incrementMinutesBy < 60) {
         return incrementMinutesBy;
@@ -66,9 +73,9 @@ var ITOD = {
     } catch (e) {
         alert(e.message);
     }
-  },
+  };
 
-  setSelectedTime: function(selectedTime, selector) {
+  ITOD.setSelectedTime = function(selectedTime, selector) {
     if(typeof selectedTime === 'undefined') {
       return;
     } else {
@@ -86,14 +93,14 @@ var ITOD = {
             alert(e.message);
         }
     }
-  },
+  };
 
-  padNumber: function(n) {
+  ITOD.padNumber = function(n) {
     // Prepend 0 if number is less than 10
     return (n < 10) ? '0' + n : n;
-  },
+  };
 
-  renderSelectOptions: function(times, selector, selectedTime) {
+  ITOD.renderSelectOptions = function(times, selector, selectedTime) {
     // Generate options and append to select element
 
     var options = this.generateOptionsHTML(times, selectedTime),
@@ -103,9 +110,9 @@ var ITOD = {
     }
 
     return times;
-  },
+  };
 
-  generateOptionsHTML: function(times, selectedTime) {
+  ITOD.generateOptionsHTML = function(times, selectedTime) {
     var html = [];
     for(var i = 0; i < times.length; i += 1) {
       var time = times[i],
@@ -117,5 +124,5 @@ var ITOD = {
     }
 
     return html;
-  }
-};
+  };
+})();
