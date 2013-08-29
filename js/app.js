@@ -47,17 +47,17 @@
         incrementMinutesBy = setMinuteIncrement(opts.incrementMinutesBy),
         periods = ['am', 'pm'],
         hours = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-        returnedTimes = [];
+        times = [];
 
     for(var p = 0; p < periods.length; p += 1) {
       for(var h = 0; h < hours.length; h += 1) {
         for(var i = 0; i < 60; i += incrementMinutesBy) {
-          returnedTimes.push(hours[h].toString() + ':' + padNumber(i).toString() + periods[p]);
+          times.push(hours[h].toString() + ':' + padNumber(i).toString() + periods[p]);
         }
       }
     }
 
-    return returnedTimes;
+    return defaults.concat(times);
   };
 
   var generateOptionsHTML = function(times) {
@@ -85,7 +85,6 @@
 
   var defaults = ['Any', 'Early (4a-8a)', 'Morning (8a-12p)', 'Afternoon (12p-5p)', 'Evening (5p-9p)', 'Night (9p-12a)'];
   var times = getTimes({ defaults: defaults, incrementMinutesBy: 15 });
-  var combined = defaults.concat(times);
 
-  return renderSelectOptions(combined);
+  return renderSelectOptions(times);
 })();
