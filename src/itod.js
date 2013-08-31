@@ -45,18 +45,10 @@
   };
 
   ITOD.setDefaultTimes = function(defaults) {
-    try {
-      if(Array.isArray(defaults)) {
-        return defaults;
-      } else {
-          throw {
-            name: 'DefaultsTypeError',
-            message: 'Defaults must be of type Array',
-            extra: ''
-          }
-      }
-    } catch (e) {
-        alert(e.message);
+    if(Array.isArray(defaults)) {
+      return defaults;
+    } else {
+        throw new Error('Defaults must be of type Array');
     }
   };
 

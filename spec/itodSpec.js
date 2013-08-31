@@ -2,11 +2,15 @@ describe('itod suite', function() {
   var opts;
   var timesArray;
 
+  beforeEach(function() {
+    opts = {};
+  });
+
   it('should have ITOD defined', function() {
     expect(ITOD).toBeDefined();
   });
 
-  describe('The getTimes function', function() {
+  describe('The getTimes method', function() {
     it('should return an array of times of day every 15 minutes with defaults prepended', function() {
       opts = {
         defaults: ['Any', 'Early (4a-8a)', 'Morning (8a-12p)', 'Afternoon (12p-5p)', 'Evening (5p-9p)', 'Night (9p-12a)'],
@@ -16,8 +20,15 @@ describe('itod suite', function() {
       expect(ITOD.getTimes(opts)).toEqual(timesArray);
     });
 
-    it('should raise an ArgumentError if an object is not passed in', function() {
-      expect(function() {ITOD.getTimes()}).toThrow(new Error('Options object argument must be passed'));
+    it('should raise an Error if an object is not passed in', function() {
+      expect(function() { ITOD.getTimes(); }).toThrow(new Error('Options object argument must be passed'));
+    });
+  });
+
+  describe('The setDefaultTimes method', function() {
+    it('should only accept an argument of type Array', function() {
+      opts = { defaults: '' };
+      expect(function() { ITOD.setDefaultTimes(opts.defaults); }).toThrow(new Error('Defaults must be of type Array'));
     });
   });
 
