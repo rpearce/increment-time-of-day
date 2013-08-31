@@ -14,6 +14,7 @@
   ITOD.VERSION = '0.1'
 
   ITOD.getTimes = function(opts) {
+    if (typeof opts === 'undefined') { throw new Error('Options object argument must be passed'); return; }
     var defaults = this.setDefaultTimes(opts.defaults),
         incrementMinutesBy = this.setMinuteIncrement(opts.incrementMinutesBy),
         selector = opts.selector,
