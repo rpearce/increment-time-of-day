@@ -48,23 +48,15 @@
     if(Array.isArray(defaults)) {
       return defaults;
     } else {
-        throw new Error('Defaults must be of type Array');
+        throw new Error('defaults must be of type Array');
     }
   };
 
   ITOD.setMinuteIncrement = function(incrementMinutesBy) {
-    try {
-      if(typeof incrementMinutesBy === 'number' && incrementMinutesBy < 60) {
-        return incrementMinutesBy;
-      } else {
-          throw {
-            name: 'MinuteIncrementError',
-            message: 'incrementMinutesBy must be a number and must be less than 60',
-            extra: ''
-          }
-      }
-    } catch (e) {
-        alert(e.message);
+    if(typeof incrementMinutesBy === 'number' && incrementMinutesBy < 60) {
+      return incrementMinutesBy;
+    } else {
+        throw new Error('incrementMinutesBy must be a number and must be less than 60')
     }
   };
 

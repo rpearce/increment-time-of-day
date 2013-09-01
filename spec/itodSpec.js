@@ -27,8 +27,26 @@ describe('itod suite', function() {
 
   describe('The setDefaultTimes method', function() {
     it('should only accept an argument of type Array', function() {
+      opts = { defaults: [] };
+      expect(ITOD.setDefaultTimes(opts.defaults)).toEqual([]);
+    });
+
+    it('should NOT accept an argument of type String', function() {
       opts = { defaults: '' };
-      expect(function() { ITOD.setDefaultTimes(opts.defaults); }).toThrow(new Error('Defaults must be of type Array'));
+      expect(function() { ITOD.setDefaultTimes(opts.defaults); }).toThrow(new Error('defaults must be of type Array'));
+    });
+  });
+
+  describe('The setMinuteIncrement method', function() {
+    it('should only accept an argument of type Number', function() {
+      opts = { incrementMinutesBy: 5 };
+      expect(ITOD.setMinuteIncrement(opts.incrementMinutesBy)).toBe(5);
+    });
+
+    it('should NOT accept an argument of type String', function() {
+      opts = { incrementMinutesBy: '' };
+      expect(function() { ITOD.setMinuteIncrement(opts.incrementMinutesBy); })
+        .toThrow(new Error('incrementMinutesBy must be a number and must be less than 60'));
     });
   });
 
