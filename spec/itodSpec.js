@@ -43,10 +43,48 @@ describe('itod suite', function() {
       expect(ITOD.setMinuteIncrement(opts.incrementMinutesBy)).toBe(5);
     });
 
-    it('should NOT accept an argument of type String', function() {
+    it('should throw an error if argument is of type String', function() {
       opts = { incrementMinutesBy: '' };
       expect(function() { ITOD.setMinuteIncrement(opts.incrementMinutesBy); })
         .toThrow(new Error('incrementMinutesBy must be a number and must be less than 60'));
+    });
+  });
+
+  describe('The setSelectedTime method', function() {
+    it('should return undefined if selectedTime argument is undefined', function() {
+      opts = { selector: '.select' };
+      expect(ITOD.setSelectedTime(opts.selectedTime)).toBeUndefined();
+    });
+
+    it('should throw an error if selectedTime argument is not a string', function() {
+      opts = { selector: '.select', selectedTime: [] };
+      expect(function() { ITOD.setSelectedTime(opts.selectedTime); })
+        .toThrow(new Error('selectedTime must be a string and the "selector" attribute must be defined'));
+    });
+
+    it('should throw an error if selectedTime is a string but selector is undefined', function() {
+      opts = { selectedTime: '7:30am', incrementMinutesBy: 30 };
+      expect(function() { ITOD.setSelectedTime(opts.selectedTime); })
+        .toThrow(new Error('selectedTime must be a string and the "selector" attribute must be defined'));
+    });
+
+    it('should throw an error if selectedTime is a string but selector is an empty string', function() {
+      opts = { selector: '', selectedTime: '7:30am', incrementMinutesBy: 30 };
+      expect(function() { ITOD.setSelectedTime(opts.selectedTime); })
+        .toThrow(new Error('selectedTime must be a string and the "selector" attribute must be defined'));
+    });
+  });
+
+  describe('The padNumber method', function() {
+    it('should prepend a 0 to a single digit number', function() {
+      randomSingleDigit = Math.floor(Math.random() * 10); // Needs to be [0-9]
+      expect(ITOD.padNumber(randomSingleDigit)).toBe('0' + randomSingleDigit);
+    });
+
+    it('should throw an error if the argument is not of type number', function() {
+      var n = '30';
+      expect(function() { ITOD.padNumber(n); })
+        .toThrow(new Error('padNumber argument must be of type "number"'));
     });
   });
 

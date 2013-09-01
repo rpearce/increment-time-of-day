@@ -61,28 +61,17 @@
   };
 
   ITOD.setSelectedTime = function(selectedTime, selector) {
-    if(typeof selectedTime === 'undefined') {
-      return;
+    if(typeof selectedTime === 'undefined') { return; }
+    if(typeof selectedTime === 'string' && typeof selector !== 'undefined' && selector !== '') {
+      return selectedTime;
     } else {
-        try {
-          if(typeof selectedTime === 'string' && typeof selector !== 'undefined' && selector !== '') {
-            return selectedTime;
-          } else {
-              throw {
-                name: 'SelectedTimeError',
-                message: 'selectedTime must be a string and the "selector" attribute must be defined',
-                extra: ''
-              }
-          }
-        } catch (e) {
-            alert(e.message);
-        }
+        throw new Error('selectedTime must be a string and the "selector" attribute must be defined')
     }
   };
 
   ITOD.padNumber = function(n) {
-    // Prepend 0 if number is less than 10
-    return (n < 10) ? '0' + n : n;
+    if (typeof n !== 'number') { throw new Error('padNumber argument must be of type "number"'); return; };
+    return (n < 10) ? '0' + n : n; // Prepend 0 if number is less than 10
   };
 
   ITOD.renderSelectOptions = function(times, selector, selectedTime) {
