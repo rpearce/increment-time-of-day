@@ -71,7 +71,7 @@
 
   ITOD.padNumber = function(n) {
     if (typeof n !== 'number') { throw new Error('padNumber argument must be of type "number"'); return; };
-    return (n < 10) ? '0' + n : n; // Prepend 0 if number is less than 10
+    return (n < 10) ? '0' + n : n;
   };
 
   ITOD.renderSelectOptions = function(times, selector, selectedTime) {
@@ -87,16 +87,17 @@
   };
 
   ITOD.generateOptionsHTML = function(times, selectedTime) {
-    var html = [];
-    for(var i = 0; i < times.length; i += 1) {
+    var options = [],
+        i = 0;
+    for(; i < times.length; i += 1) {
       var time = times[i],
           option = document.createElement('option');
       option.value = time;
       option.text = time;
       option.selected = time === selectedTime;
-      html.push(option);
+      options.push(option);
     }
 
-    return html;
+    return options;
   };
 })();
