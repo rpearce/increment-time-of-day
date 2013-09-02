@@ -19,7 +19,7 @@
     incrementMinutesBy: 15,
     selector: '.times',
     selectedTime: '7:30am'
-  }
+  };
 
   var times = ITOD.getTimes(opts);
 

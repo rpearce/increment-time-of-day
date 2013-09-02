@@ -14,6 +14,7 @@
   ITOD.VERSION = '0.1'
 
   ITOD.getTimes = function(opts) {
+    if (typeof opts === 'undefined') { throw new Error('Options object argument must be passed'); return; }
     var defaults = this.setDefaultTimes(opts.defaults),
         incrementMinutesBy = this.setMinuteIncrement(opts.incrementMinutesBy),
         selector = opts.selector,
@@ -44,59 +45,32 @@
   };
 
   ITOD.setDefaultTimes = function(defaults) {
-    try {
-      if(Array.isArray(defaults)) {
-        return defaults;
-      } else {
-          throw {
-            name: 'DefaultsTypeError',
-            message: 'Defaults must be of type Array',
-            extra: ''
-          }
-      }
-    } catch (e) {
-        alert(e.message);
+    if(Array.isArray(defaults)) {
+      return defaults;
+    } else {
+        throw new Error('defaults must be of type Array');
     }
   };
 
   ITOD.setMinuteIncrement = function(incrementMinutesBy) {
-    try {
-      if(typeof incrementMinutesBy === 'number' && incrementMinutesBy < 60) {
-        return incrementMinutesBy;
-      } else {
-          throw {
-            name: 'MinuteIncrementError',
-            message: 'incrementMinutesBy must be a number and must be less than 60',
-            extra: ''
-          }
-      }
-    } catch (e) {
-        alert(e.message);
+    if(typeof incrementMinutesBy === 'number' && incrementMinutesBy < 60) {
+      return incrementMinutesBy;
+    } else {
+        throw new Error('incrementMinutesBy must be a number and must be less than 60')
     }
   };
 
   ITOD.setSelectedTime = function(selectedTime, selector) {
-    if(typeof selectedTime === 'undefined') {
-      return;
+    if(typeof selectedTime === 'undefined') { return; }
+    if(typeof selectedTime === 'string' && typeof selector !== 'undefined' && selector !== '') {
+      return selectedTime;
     } else {
-        try {
-          if(typeof selectedTime === 'string' && typeof selector !== 'undefined' && selector !== '') {
-            return selectedTime;
-          } else {
-              throw {
-                name: 'SelectedTimeError',
-                message: 'selectedTime must be a string and the "selector" attribute must be defined',
-                extra: ''
-              }
-          }
-        } catch (e) {
-            alert(e.message);
-        }
+        throw new Error('selectedTime must be a string and the "selector" attribute must be defined')
     }
   };
 
   ITOD.padNumber = function(n) {
-    // Prepend 0 if number is less than 10
+    if (typeof n !== 'number') { throw new Error('padNumber argument must be of type "number"'); return; };
     return (n < 10) ? '0' + n : n;
   };
 
@@ -113,16 +87,17 @@
   };
 
   ITOD.generateOptionsHTML = function(times, selectedTime) {
-    var html = [];
-    for(var i = 0; i < times.length; i += 1) {
+    var options = [],
+        i = 0;
+    for(; i < times.length; i += 1) {
       var time = times[i],
           option = document.createElement('option');
       option.value = time;
       option.text = time;
       option.selected = time === selectedTime;
-      html.push(option);
+      options.push(option);
     }
 
-    return html;
+    return options;
   };
 })();
